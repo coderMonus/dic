@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Manager Panel</h1>
+    </header>
+    <main>
+        <input type="password" id="password" placeholder="Enter Manager Password">
+        <button onclick="loadData()">Load Data</button>
+        <table id="edit-table" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Monthly Contribution</th>
+                    <th>Total Investment</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button id="save-btn" style="display:none;" onclick="saveData()">Save Changes</button>
+    </main>
+    <script>
+        let investors = [];
+
+        function loadData() {
+            fetch('/api/investors')
+                .then(res => res.json())
+                .then(data => {
+                    investors = data;
+                    const tbody = document.querySelector("#edit-table tbody");
+                    tbody.innerHTML = "";
+                    investors.forEach((inv, i) => {
+                        const row = `<tr>
+                            <td><input value="${inv.name}" onchange="updateField(${i}, 'name', this.value)"></td>
+                            <td><input type="number" value="${inv.monthly}" onchange="updateField(${i}, 'monthly', this.value)"></td>
+                            <td><input type="number" value="${inv.total}" onchange="updateField(${i}, 'total', this.value)"></td>
+                        </tr>`;
+                        tbody.innerHTML += row;
+                    });
+                    document.getElementById("edit-table").style.display = "table";
+                    document.getElementById("save-btn").style.display = "block";
+                });
+        }
+
+        function updateField(index, field, value) {
+            investors[index][field] = value;
+        }
+
+        function saveData() {
+            const password = document.getElementById("password").value;
+            fetch('/api/investors', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password, investors })
+            })
+            .then(res => res.json())
+            .then(res => alert(res.message || res.error));
+        }
+    </script>
+</body>
+</html>
