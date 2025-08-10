@@ -3,42 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investor List</title>
+    <title>Investment App - Home</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            background: #f8f9fa;
+        }
+        header {
+            background: #007bff;
+            color: white;
+            padding: 1rem;
+        }
+        main {
+            margin-top: 50px;
+        }
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 20px;
+            margin: 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Investor Contributions</h1>
+        <h1>Investment App</h1>
+        <p>Welcome! Choose an option below:</p>
     </header>
     <main>
-        <table id="investor-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Monthly Contribution</th>
-                    <th>Total Investment</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <a href="investors.html" class="btn">📋 Investors List</a>
+        <a href="admin.html" class="btn">🔑 Manager Login</a>
+        <a href="#" class="btn">📊 Reports (Coming Soon)</a>
     </main>
-    <footer>
-        <p>&copy; 2025 Company Name. All rights reserved.</p>
-    </footer>
-    <script>
-        fetch('/api/investors')
-            .then(res => res.json())
-            .then(data => {
-                const tbody = document.querySelector("#investor-table tbody");
-                data.forEach(inv => {
-                    const row = `<tr>
-                        <td>${inv.name}</td>
-                        <td>$${inv.monthly}</td>
-                        <td>$${inv.total}</td>
-                    </tr>`;
-                    tbody.innerHTML += row;
-                });
-            });
-    </script>
 </body>
 </html>
+
